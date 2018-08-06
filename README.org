@@ -1,0 +1,7 @@
+* Emacs Configurations
+  The following repository contains my Emacs configurations
+* Versions
+  | Version | Comments       |
+  |---------+----------------|
+  |   0.1.0 | Initial commit |
+

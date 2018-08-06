@@ -1,0 +1,150 @@
+* Interface
+** General
+  Get rid of the start screen,
+  Remove the tool bar from the top,
+  Turn yes or no into y or n,
+  and, Refresh buffer with <f5>
+  #+BEGIN_SRC emacs-lisp
+    (setq inhibit-startup-message t)
+    (tool-bar-mode -1)
+    (fset 'yes-or-no-p 'y-or-n-p)
+    (global-set-key (kbd "<f5>") 'revert-buffer)
+  #+END_SRC
+  Set tabs at the top of the screen
+  #+BEGIN_SRC emacs-lisp
+    (use-package tabbar
+      :ensure t
+      :config
+      (tabbar-mode 1))
+  #+END_SRC
+  Set up tabbar-ruler
+  #+BEGIN_SRC emacs-lisp
+    (use-package tabbar-ruler
+      :ensure t)
+    (setq tabbar-ruler-global-tabbar t)
+    (global-set-key (kbd "C-c t") 'tabbar-ruler-move)
+    (require 'tabbar-ruler)
+  #+END_SRC
+  Change stupid audible bell to something actually useful...
+  (flashes bottom line with mild orange)
+  #+BEGIN_SRC emacs-lisp
+    (setq ring-bell-function
+	  (lambda ()
+	    (let ((orig-fg (face-foreground 'mode-line)))
+	      (set-face-foreground 'mode-line "#F2804F")
+	      (run-with-idle-timer 0.1 nil
+				   (lambda (fg) (set-face-foreground 'mode-line fg))
+				   orig-fg))))
+  #+END_SRC
+** Theme
+  Color theme stuff (currently not wanted)
+  #+BEGIN_SRC emacs-lisp
+    ;; (use-package color-theme
+    ;;   :ensure t)
+  #+END_SRC
+  My color theme
+  #+BEGIN_SRC emacs-lisp
+    (use-package atom-one-dark-theme
+      :ensure t)
+    (load-theme 'atom-one-dark t)
+  #+END_SRC
+* Try
+  Enable try, lets you try packages without installing them
+  #+BEGIN_SRC emacs-lisp
+    (use-package try
+      :ensure t)
+  #+END_SRC
+* Which key
+  Bring up help on keybaord hints
+  #+BEGIN_SRC emacs-lisp
+    (use-package which-key
+      :ensure t
+      :config (which-key-mode))
+  #+END_SRC
+* Org Mode
+  Set up org bullets
+  #+BEGIN_SRC emacs-lisp
+    (use-package org-bullets
+      :ensure t
+      :config
+      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+  #+END_SRC
+* i-do setup
+  Set i-do mode
+  #+BEGIN_SRC emacs-lisp
+    (setq ido-enable-flex-matching t)
+    (setq id-everywhere t)
+    (ido-mode 1)
+  #+END_SRC
+  Set up buffers to use ibuffer
+  #+BEGIN_SRC emacs-lisp
+    (defalias 'list-buffers 'ibuffer)
+    ;; (defalias 'list-buffers 'ibuffer-other-window)  
+  #+END_SRC
+* Movement
+** Windmove
+   Set up easy movement between windows   
+   #+BEGIN_SRC emacs-lisp
+     (windmove-default-keybindings)
+   #+END_SRC
+* Counsel and Swiper
+** Counsel
+   Counsel requirement to swiper
+   #+BEGIN_SRC emacs-lisp
+     (use-package counsel
+       :ensure t
+       :bind
+       (("M-y" . counsel-yank-pop)
+	:map ivy-minibuffer-map
+	("M-y" . ivy-next-line)
+	("C-w" . ivy-yank-word)))
+   #+END_SRC
+** Swiper
+   Set up Swiper
+   #+BEGIN_SRC emacs-lisp
+     (use-package swiper
+       :ensure t
+       :init
+       (progn
+	 (ivy-mode 1)
+	 (setq ivy-use-virtual-buffers t)
+	 (setq ive-display-style 'fancy)
+	 (global-set-key "\C-s" 'swiper)
+	 (global-set-key (kbd "C-c C-r") 'ivy-resume)
+	 (global-set-key (kbd "<f6>") 'ivy-resume)
+	 (global-set-key (kbd "M-x") 'counsel-M-x)
+	 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+	 (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+	 (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+	 (global-set-key (kbd "<f1> l") 'counsel-load-library)
+	 (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+	 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+	 (global-set-key (kbd "C-c g") 'counsel-git)
+	 (global-set-key (kbd "C-c j") 'counsel-git-grep)
+	 (global-set-key (kbd "C-c k") 'counsel-ag)
+	 (global-set-key (kbd "C-x l") 'counsel-locate)
+	 (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+	 (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+	 ))
+    #+END_SRC
+* Avy
+  Set up Avy
+  #+BEGIN_SRC emacs-lisp
+    ;; (use-package avy
+     ;; :ensure t
+     ;; :bind ("M-s" . avy-goto-char))
+  #+END_SRC
+* Auto completion
+  Set up autocomplete
+  #+BEGIN_SRC emacs-lisp
+    (use-package auto-complete
+      :ensure t
+      :init
+      (progn
+	(ac-config-default)
+	(global-auto-complete-mode t)))
+  #+END_SRC
+* Company mode
+#+BEGIN_SRC emacs-lisp
+  ;; (add-hook 'after-init-hook 'global-company-mode)
+#+END_SRC
