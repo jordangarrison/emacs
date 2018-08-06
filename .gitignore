@@ -12,3 +12,5 @@ SessionDesktop.el
 games
 eshell/history
 elpa
+.python-environments
+auto-save-list

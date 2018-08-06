@@ -1,3 +1,4 @@
+
 (setq inhibit-startup-message t)
 (tool-bar-mode -1)
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -16,11 +17,11 @@
 
 (setq ring-bell-function
       (lambda ()
-	(let ((orig-fg (face-foreground 'mode-line)))
-	  (set-face-foreground 'mode-line "#F2804F")
-	  (run-with-idle-timer 0.1 nil
-			       (lambda (fg) (set-face-foreground 'mode-line fg))
-			       orig-fg))))
+        (let ((orig-fg (face-foreground 'mode-line)))
+          (set-face-foreground 'mode-line "#F2804F")
+          (run-with-idle-timer 0.1 nil
+                               (lambda (fg) (set-face-foreground 'mode-line fg))
+                               orig-fg))))
 
 ;; (use-package color-theme
 ;;   :ensure t)
@@ -105,3 +106,32 @@
     (global-auto-complete-mode t)))
 
 ;; (add-hook 'after-init-hook 'global-company-mode)
+
+;; (setq make-backup-files nil) ; stop creating backup~ files
+(setq auto-save-default nil) ; stop creating #autosave# files
+
+(defun my-backup-file-name (fpath)
+  "Return a new file path of a given file path.
+If the new path's directories does not exist, create them."
+  (let* (
+         (backupRootDir "~/.emacs.d/emacs-backup/")
+         (filePath (replace-regexp-in-string "[A-Za-z]:" "" fpath )) ; remove Windows driver letter in path, for example, “C:”
+         (backupFilePath (replace-regexp-in-string "//" "/" (concat backupRootDir filePath "~") ))
+         )
+    (make-directory (file-name-directory backupFilePath) (file-name-directory backupFilePath))
+    backupFilePath
+    )
+  )
+
+(setq make-backup-file-name-function 'my-backup-file-name)
+
+(use-package flycheck
+  :ensure t
+  :init
+  (global-flycheck-mode t))
+
+(use-package jedi
+  :ensure t
+  :init
+  (add-hook 'python-mode-hook 'jedi:setup)
+  (add-hook 'python-mode-hook 'jedi:ac-setup))

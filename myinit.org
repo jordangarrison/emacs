@@ -62,13 +62,14 @@
       :config (which-key-mode))
   #+END_SRC
 * Org Mode
-  Set up org bullets
+** Set up org bullets
   #+BEGIN_SRC emacs-lisp
     (use-package org-bullets
       :ensure t
       :config
       (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
   #+END_SRC
+** Org-mode source code languages
 * i-do setup
   Set i-do mode
   #+BEGIN_SRC emacs-lisp
@@ -161,3 +162,56 @@
 #+BEGIN_SRC emacs-lisp
   ;; (add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
+* Backup and Autosave
+** Turn off the backup and autosave files
+   #+BEGIN_SRC emacs-lisp
+     ;; (setq make-backup-files nil) ; stop creating backup~ files
+     (setq auto-save-default nil) ; stop creating #autosave# files
+   #+END_SRC
+** Set backup directory
+   #+BEGIN_SRC emacs-lisp
+     (defun my-backup-file-name (fpath)
+       "Return a new file path of a given file path.
+     If the new path's directories does not exist, create them."
+       (let* (
+              (backupRootDir "~/.emacs.d/emacs-backup/")
+              (filePath (replace-regexp-in-string "[A-Za-z]:" "" fpath )) ; remove Windows driver letter in path, for example, “C:”
+              (backupFilePath (replace-regexp-in-string "//" "/" (concat backupRootDir filePath "~") ))
+              )
+         (make-directory (file-name-directory backupFilePath) (file-name-directory backupFilePath))
+         backupFilePath
+         )
+       )
+
+     (setq make-backup-file-name-function 'my-backup-file-name)
+   #+END_SRC
+* Development
+** Python
+*** Flycheck
+    #+BEGIN_SRC emacs-lisp
+      (use-package flycheck
+        :ensure t
+        :init
+        (global-flycheck-mode t))
+    #+END_SRC
+*** Jedi
+    #+BEGIN_SRC emacs-lisp
+      (use-package jedi
+        :ensure t
+        :init
+        (add-hook 'python-mode-hook 'jedi:setup)
+        (add-hook 'python-mode-hook 'jedi:ac-setup))
+    #+END_SRC
+
+*** Yasnippet
+    #+BEGIN_SRC emacs-lisp
+      (use-package elpy
+        :ensure t
+        :config
+        (elpy-enable))
+      (use-package yasnippet
+        :ensure t
+        :init
+        (yas-global-mode 1))
+    #+END_SRC
+
