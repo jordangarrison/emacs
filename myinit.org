@@ -87,7 +87,20 @@
    #+BEGIN_SRC emacs-lisp
      (windmove-default-keybindings)
    #+END_SRC
-* Counsel and Swiper
+** Ace Window
+   Set up ace-window move to take over C-c o
+   #+BEGIN_SRC emacs-lisp
+     (use-package ace-window
+       :ensure t
+       :init
+       (progn
+	 (global-set-key [remap other-window] 'ace-window)
+	 (custom-set-faces
+	  '(aw-leading-char-face
+	    ((t (:inherit ace-jump-face-foreground :height 3.0))))) 
+	 ))
+   #+END_SRC
+* Search
 ** Counsel
    Counsel requirement to swiper
    #+BEGIN_SRC emacs-lisp
