@@ -1,4 +1,3 @@
-
 (setq inhibit-startup-message t)
 (tool-bar-mode -1)
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -17,11 +16,11 @@
 
 (setq ring-bell-function
       (lambda ()
-        (let ((orig-fg (face-foreground 'mode-line)))
-          (set-face-foreground 'mode-line "#F2804F")
-          (run-with-idle-timer 0.1 nil
-                               (lambda (fg) (set-face-foreground 'mode-line fg))
-                               orig-fg))))
+	(let ((orig-fg (face-foreground 'mode-line)))
+	  (set-face-foreground 'mode-line "#F2804F")
+	  (run-with-idle-timer 0.1 nil
+			       (lambda (fg) (set-face-foreground 'mode-line fg))
+			       orig-fg))))
 
 ;; (use-package color-theme
 ;;   :ensure t)
@@ -135,3 +134,12 @@ If the new path's directories does not exist, create them."
   :init
   (add-hook 'python-mode-hook 'jedi:setup)
   (add-hook 'python-mode-hook 'jedi:ac-setup))
+
+(use-package elpy
+  :ensure t
+  :config
+  (elpy-enable))
+(use-package yasnippet
+  :ensure t
+  :init
+  (yas-global-mode 1))
