@@ -1,3 +1,4 @@
+
 (setq inhibit-startup-message t)
 (tool-bar-mode -1)
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -16,18 +17,18 @@
 
 (setq ring-bell-function
       (lambda ()
-	(let ((orig-fg (face-foreground 'mode-line)))
-	  (set-face-foreground 'mode-line "#F2804F")
-	  (run-with-idle-timer 0.1 nil
-			       (lambda (fg) (set-face-foreground 'mode-line fg))
-			       orig-fg))))
+        (let ((orig-fg (face-foreground 'mode-line)))
+          (set-face-foreground 'mode-line "#F2804F")
+          (run-with-idle-timer 0.1 nil
+                               (lambda (fg) (set-face-foreground 'mode-line fg))
+                               orig-fg))))
 
 ;; (use-package color-theme
 ;;   :ensure t)
 
-(use-package atom-one-dark-theme
+(use-package zenburn-theme
   :ensure t)
-(load-theme 'atom-one-dark t)
+(load-theme 'zenburn t)
 
 (use-package try
   :ensure t)
@@ -36,10 +37,29 @@
   :ensure t
   :config (which-key-mode))
 
+(defface org-block-begin-line
+  '((t (:underline "#A7A6AA" :foreground "#b5d2e0" :background "#626268")))
+  "Face used for the line delimiting the begin of source blocks.")
+
+(defface org-block-background
+  '((t (:background "#FFFFEA")))
+  "Face used for the source block background.")
+
+(defface org-block-end-line
+  '((t (:overline "#A7A6AA" :foreground "#b5d2e0" :background "#626268")))
+  "Face used for the line delimiting the end of source blocks.")
+
 (use-package org-bullets
   :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)
+   (sh . t)))
+
+(setq org-src-fontify-natively t)
 
 (setq ido-enable-flex-matching t)
 (setq id-everywhere t)
@@ -143,3 +163,10 @@ If the new path's directories does not exist, create them."
   :ensure t
   :init
   (yas-global-mode 1))
+
+(require 'flymake-ruby)
+(add-hook 'ruby-mode-hook 'flymake-ruby-load)
+
+(setq ruby-deep-indent-paren nil)
+
+(global-set-key (kbd "C-c r r") 'inf-ruby)

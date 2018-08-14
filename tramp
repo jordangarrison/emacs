@@ -1,0 +1,90 @@
+;; -*- emacs-lisp -*- <18/08/13 10:29:43 /home/hzgm6z/.emacs.d/tramp>
+;; Tramp connection history.  Don't change this file.
+;; You can delete it, forcing Tramp to reapply the checks.
+
+((["rsync" nil "labwar" nil nil]
+  ("uname" "Linux 2.6.32-696.23.1.el6.x86_64")
+  ("locale" "LC_ALL=en_US.utf8")
+  ("test" "test")
+  ("remote-path"
+   ("/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin"))
+  ("remote-shell" "/bin/sh")
+  ("~" "/home/hzgm6z")
+  ("stat" "\\stat")
+  ("file-exists" "test -e")
+  ("id" "/usr/bin/id")
+  ("uid-integer" 272747785)
+  ("gid-integer" 2000000)
+  ("readlink" "\\readlink"))
+ (["scp" nil "labwar" nil nil]
+  ("uname" "Linux 2.6.32-696.23.1.el6.x86_64")
+  ("locale" "LC_ALL=en_US.utf8")
+  ("test" "test")
+  ("remote-path"
+   ("/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin"))
+  ("remote-shell" "/bin/sh")
+  ("~" "/home/hzgm6z")
+  ("stat" "\\stat")
+  ("file-exists" "test -e")
+  ("id" "/usr/bin/id")
+  ("uid-integer" 272747785)
+  ("gid-integer" 2000000)
+  ("readlink" "\\readlink"))
+ (["sudo" "root" "dcmidphd04001.epg.nam.gm.com" nil nil]
+  ("uname" "Linux 3.10.0-862.3.3.el7.x86_64")
+  ("locale" "LC_ALL=en_US.utf8")
+  ("test" "test")
+  ("remote-path"
+   ("/usr/bin" "/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin"))
+  ("remote-shell" "/bin/sh")
+  ("~root" "/root")
+  ("stat" nil)
+  ("perl-file-spec" t)
+  ("perl-cwd-realpath" t)
+  ("perl" "\\perl")
+  ("file-exists" "test -e")
+  ("id" "/usr/bin/id")
+  ("uid-integer" 0)
+  ("gid-integer" 0)
+  ("readlink" "\\readlink"))
+ (["scp" nil "testwar" nil nil]
+  ("uname" "Linux 2.6.32-754.el6.x86_64")
+  ("locale" "LC_ALL=en_US.utf8")
+  ("test" "test")
+  ("remote-path"
+   ("/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin"))
+  ("remote-shell" "/bin/sh")
+  ("~" "/home/hzgm6z")
+  ("stat" "\\stat")
+  ("file-exists" "test -e")
+  ("id" "/usr/bin/id")
+  ("uid-integer" 272747785)
+  ("gid-integer" 2000000)
+  ("readlink" "\\readlink"))
+ (["ssh" nil "dcmidphd04001.epg.nam.gm.com" nil nil]
+  nil)
+ (["ssh" nil "testwar" nil nil]
+  nil)
+ (["sudo" "hdfs" "dcwitphm01001-a.edc.nam.gm.com" nil nil]
+  ("uname" "Linux 2.6.32-754.el6.x86_64")
+  ("locale" "LC_ALL=en_US.utf8")
+  ("test" "test")
+  ("remote-path"
+   ("/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin"))
+  ("remote-shell" "/bin/sh")
+  ("id" "/usr/bin/id")
+  ("uid-integer" 40001)
+  ("stat" "\\stat")
+  ("file-exists" "test -e")
+  ("gid-integer" 40001)
+  ("readlink" "\\readlink"))
+ (["scp" nil "dcmidphm01001.epg.nam.gm.com" nil nil]
+  nil)
+ (["rsync" nil "dcmidphd04001.epg.nam.gm.com" nil nil]
+  nil)
+ (["ssh" nil "nonprod" nil nil]
+  nil)
+ (["sudo" "root" "dcmidphm01001.epg.nam.gm.com" nil nil]
+  nil)
+ (["scp" nil "rsync" nil nil]
+  nil))
