@@ -41,6 +41,11 @@
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)
+   (shell . t)))
+
 (setq ido-enable-flex-matching t)
 (setq id-everywhere t)
 (ido-mode 1)
@@ -143,3 +148,10 @@ If the new path's directories does not exist, create them."
   :ensure t
   :init
   (yas-global-mode 1))
+
+(defun my-go-mode-hook()
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  (local-set-key (kbd "M-.") 'godef-jump)
+  (local-set-key (kbd "M-*") 'pop-tag-mark)
+  )
+(add-hook 'go-mode-hook 'my-go-mode-hook)

@@ -44,9 +44,9 @@
   #+END_SRC
   My color theme
   #+BEGIN_SRC emacs-lisp
-    (use-package atom-one-dark-theme
+    (use-package zenburn-theme
       :ensure t)
-    (load-theme 'atom-one-dark t)
+    (load-theme 'zenburn t)
   #+END_SRC
 * Try
   Enable try, lets you try packages without installing them
@@ -70,6 +70,12 @@
       (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
   #+END_SRC
 ** Org-mode source code languages
+#+BEGIN_SRC emacs-lisp
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t)
+     (shell . t)))
+#+END_SRC
 * i-do setup
   Set i-do mode
   #+BEGIN_SRC emacs-lisp
@@ -217,6 +223,15 @@
 
 ** Go
 *** Set up gopath
+*** Call gofmt on save and godef keybindings
+    #+BEGIN_SRC emacs-lisp
+      (defun my-go-mode-hook()
+	(add-hook 'before-save-hook 'gofmt-before-save)
+	(local-set-key (kbd "M-.") 'godef-jump)
+	(local-set-key (kbd "M-*") 'pop-tag-mark)
+	)
+      (add-hook 'go-mode-hook 'my-go-mode-hook)
+    #+END_SRC
 * Presentations
 ** Reveal.js
    Set up better org mode
