@@ -16,3 +16,5 @@ elpa
 auto-save-list
 eshell
 url
+tramp
+recentf

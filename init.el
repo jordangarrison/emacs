@@ -53,10 +53,11 @@
    (quote
     ("3f44e2d33b9deb2da947523e2169031d3707eec0426e78c7b8a646ef773a2077" default)))
  '(fci-rule-color "#3E4451")
- '(org-export-backends (quote (ascii html icalendar latex md odt confluence)))
+ '(org-export-backends (quote (ascii html icalendar latex md)))
  '(package-selected-packages
    (quote
-    (markdown-mode markdown-mode+ ruby-tools chef-mode flymake-python-pyflakes flymake-ruby org-chef ruby-additional flycheck-yamllint flymake-yaml yaml-mode flyspell-correct-ivy zenburn-theme leuven-theme htmlize org-babel-eval-in-repl go go-mode ox-reveal yasnippet elpy jedi flycheck ace-window which-key use-package try tabbar-ruler org-bullets counsel color-theme avy auto-complete atom-one-dark-theme))))
+    (magit treemacs rubocop ssh auto-org-md edit-indirect markdown-preview-eww ob-sql-mode howdoi hive ac-html bash-completion neotree markdown-mode markdown-mode+ ruby-tools chef-mode flymake-python-pyflakes flymake-ruby org-chef ruby-additional flycheck-yamllint flymake-yaml yaml-mode flyspell-correct-ivy zenburn-theme leuven-theme htmlize org-babel-eval-in-repl go go-mode ox-reveal yasnippet elpy jedi flycheck ace-window which-key use-package try tabbar-ruler org-bullets counsel color-theme avy auto-complete atom-one-dark-theme)))
+ '(safe-local-variable-values (quote ((org-confirm-babel-evaluate)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

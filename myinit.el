@@ -37,30 +37,6 @@
   :ensure t
   :config (which-key-mode))
 
-(defface org-block-begin-line
-  '((t (:underline "#A7A6AA" :foreground "#b5d2e0" :background "#626268")))
-  "Face used for the line delimiting the begin of source blocks.")
-
-(defface org-block-background
-  '((t (:background "#FFFFEA")))
-  "Face used for the source block background.")
-
-(defface org-block-end-line
-  '((t (:overline "#A7A6AA" :foreground "#b5d2e0" :background "#626268")))
-  "Face used for the line delimiting the end of source blocks.")
-
-(use-package org-bullets
-  :ensure t
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((python . t)
-   (sh . t)))
-
-(setq org-src-fontify-natively t)
-
 (setq ido-enable-flex-matching t)
 (setq id-everywhere t)
 (ido-mode 1)
@@ -170,3 +146,116 @@ If the new path's directories does not exist, create them."
 (setq ruby-deep-indent-paren nil)
 
 (global-set-key (kbd "C-c r r") 'inf-ruby)
+
+(add-hook 'sql-interactive-mode-hook
+          (lambda ()
+            (toggle-truncate-lines t)
+            (setq-local show-trailing-whitespace nil)
+            (auto-complete-mode t)))
+(add-hook 'sql-mode-hook
+          (lambda ()
+            (setq-local ac-ignore-case t)
+            (auto-complete-mode)))
+
+(use-package treemacs
+  :ensure t
+  :defer t
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :config
+  (progn
+    (setq treemacs-collapse-dirs              (if (executable-find "python") 3 0)
+          treemacs-deferred-git-apply-delay   0.5
+          treemacs-display-in-side-window     t
+          treemacs-file-event-delay           5000
+          treemacs-file-follow-delay          0.2
+          treemacs-follow-after-init          t
+          treemacs-follow-recenter-distance   0.1
+          treemacs-goto-tag-strategy          'refetch-index
+          treemacs-indentation                2
+          treemacs-indentation-string         " "
+          treemacs-is-never-other-window      nil
+          treemacs-no-png-images              nil
+          treemacs-project-follow-cleanup     nil
+          treemacs-persist-file               (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+          treemacs-recenter-after-file-follow nil
+          treemacs-recenter-after-tag-follow  nil
+          treemacs-show-hidden-files          t
+          treemacs-silent-filewatch           nil
+          treemacs-silent-refresh             nil
+          treemacs-sorting                    'alphabetic-desc
+          treemacs-space-between-root-nodes   t
+          treemacs-tag-follow-cleanup         t
+          treemacs-tag-follow-delay           1.5
+          treemacs-width                      35)
+    ;; The default width and height of the icons is 22 pixels. If you are
+    ;; using a Hi-DPI display, uncomment this to double the icon size.
+    ;;(treemacs-resize-icons 44)      
+ 
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode t)
+    (pcase (cons (not (null (executable-find "git")))
+                 (not (null (executable-find "python3"))))
+      (`(t . t)
+       (treemacs-git-mode 'extended))
+      (`(t . _)
+       (treemacs-git-mode 'simple))))
+  :bind
+  (:map global-map
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t t"   . treemacs)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file)
+        ("C-x t M-t" . treemacs-find-tag)))
+
+;; (use-package treemacs-projectile
+;;   :after treemacs projectile
+;;   :ensure t)
+
+(defface org-block-begin-line
+  '((t (:underline "#A7A6AA" :foreground "#b5d2e0" :background "#626268")))
+  "Face used for the line delimiting the begin of source blocks.")
+
+(defface org-block-background
+  '((t (:background "#FFFFEA")))
+  "Face used for the source block background.")
+
+(defface org-block-end-line
+  '((t (:overline "#A7A6AA" :foreground "#b5d2e0" :background "#626268")))
+  "Face used for the line delimiting the end of source blocks.")
+
+(use-package org-bullets
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)
+   (sql . t)
+   (ruby . t)
+   (sh . t)))
+
+(setq org-src-fontify-natively t)
+
+(use-package auto-org-md
+  :ensure t)
+(require 'auto-org-md)
+
+(define-skeleton org-header-skeleton
+  "Header info for a emacs-org file."
+  "Title: "
+  "#+TITLE: " (read-string "What is the title? ") " \n"
+  "#+AUTHOR: Jordan Garrison\n"
+  "#+email: jordan.garrison@gm.com\n"
+  "#+OPTIONS: ^:nil\n"
+  "#+INFOJS_OPT: view:" (read-string "View (options are info,overview,conent,showall): ") " sdepth:1\n"
+  "#+PROPERTY: header-args :exports both :eval never-export\n"
+  "\n"
+  )
+(global-set-key [C-S-f4] 'org-header-skeleton)
+
+(setq org-confirm-babel-evaluate nil)
