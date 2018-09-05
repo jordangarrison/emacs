@@ -16,3 +16,6 @@ elpa
 auto-save-list
 eshell
 url
+.org-id-locations
+recentf
+myinit.el

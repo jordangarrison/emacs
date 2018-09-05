@@ -48,9 +48,20 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(blink-cursor-mode nil)
+ '(cursor-type (quote bar))
+ '(org-babel-load-languages
+   (quote
+    ((python . t)
+     (shell . t)
+     (shell . t)
+     (ruby . t)
+     (awk . t)
+     (C . t))))
  '(package-selected-packages
    (quote
-    (zenburn-theme zenburn org-ac neotree flymake-go go-autocomplete auto-complete-auctex exec-path-from-shell go go-mode ox-reveal yasnippet elpy jedi flycheck ace-window which-key use-package try tabbar-ruler org-bullets counsel color-theme avy auto-complete atom-one-dark-theme))))
+    (ox-hugo evil-smartparens smartparens evil flycheck-gometalinter go-add-tags go-complete go-direx go-dlv go-eldoc go-errcheck go-fill-struct go-gen-test go-guru go-imports go-playground go-playground-cli go-scratch go-snippets go-stacktracer godoctor golint govc govet ob-go zenburn-theme zenburn org-ac neotree flymake-go go-autocomplete auto-complete-auctex exec-path-from-shell go go-mode ox-reveal yasnippet elpy jedi flycheck ace-window which-key use-package try tabbar-ruler org-bullets counsel color-theme avy auto-complete atom-one-dark-theme)))
+ '(visible-cursor t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
