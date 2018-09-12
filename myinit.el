@@ -28,7 +28,13 @@
 
 (use-package zenburn-theme
   :ensure t)
-(load-theme 'zenburn t)
+(use-package cyberpunk-theme
+  :ensure t)
+(use-package avk-emacs-themes
+  :ensure t)
+(use-package challenger-deep-theme
+  :ensure t)
+(load-theme 'cyberpunk t)
 
 (use-package try
   :ensure t)
@@ -43,6 +49,19 @@
 
 (defalias 'list-buffers 'ibuffer)
 ;; (defalias 'list-buffers 'ibuffer-other-window)
+
+(use-package find-file-in-repository
+  :ensure t)
+(use-package ido
+  :ensure t)
+(use-package ido-completing-read+
+  :ensure t)
+(use-package ido-vertical-mode
+  :ensure t)
+(global-set-key (kbd "C-x f") 'find-file-in-repository)
+(ido-ubiquitous-mode 1)
+(ido-vertical-mode 1)
+(setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
 
 (windmove-default-keybindings)
 
@@ -140,12 +159,65 @@ If the new path's directories does not exist, create them."
   :init
   (yas-global-mode 1))
 
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "GOPATH"))
+
+(defun my-go-mode-hook ()
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  (setq gofmt-command "goimports")
+  (if (not (string-match "go" compile-command))
+      (set (make-local-variable 'compile-command)
+           "go build -v && go test -v && go vet"))
+  ;; guru settings
+  (go-guru-hl-identifier-mode)
+  ;; Keybindings specific to go mode
+  (local-set-key (kbd "M-.") 'godef-jump)
+  (local-set-key (kbd "M-*") 'pop-tag-mark)
+  (local-set-key (kbd "M-p") 'compile)
+  (local-set-key (kbd "M-P") 'recompile)
+  (local-set-key (kbd "M-]") 'next-error)
+  (local-set-key (kbd "M-[") 'previous-error)
+  ;; turn on autocomplete
+  (auto-complete-mode 1))
+(add-hook 'go-mode-hook 'my-go-mode-hook)
+
+(use-package go-mode
+  :ensure t)
+(use-package go-autocomplete
+  :ensure t)
+(with-eval-after-load 'go-mode
+  (require 'go-autocomplete))
+
+(use-package yaml-mode
+  :ensure t)
+
 (require 'flymake-ruby)
 (add-hook 'ruby-mode-hook 'flymake-ruby-load)
 
 (setq ruby-deep-indent-paren nil)
 
 (global-set-key (kbd "C-c r r") 'inf-ruby)
+
+(use-package chef-mode
+  :ensure t)
+
+(use-package markdown-mode
+  :ensure t)
+(use-package markdown-mode+
+  :ensure t)
+(use-package markdown-toc
+  :ensure t)
+(use-package markdownfmt
+  :ensure t)
+(use-package markdown-preview-eww
+  :ensure t)
+
+(use-package smartparens
+  :ensure t)
+(use-package evil-smartparens
+  :ensure t)
+(smartparens-global-mode t)
 
 (add-hook 'sql-interactive-mode-hook
           (lambda ()
@@ -157,63 +229,24 @@ If the new path's directories does not exist, create them."
             (setq-local ac-ignore-case t)
             (auto-complete-mode)))
 
-(use-package treemacs
-  :ensure t
-  :defer t
-  :init
-  (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
-  :config
-  (progn
-    (setq treemacs-collapse-dirs              (if (executable-find "python") 3 0)
-          treemacs-deferred-git-apply-delay   0.5
-          treemacs-display-in-side-window     t
-          treemacs-file-event-delay           5000
-          treemacs-file-follow-delay          0.2
-          treemacs-follow-after-init          t
-          treemacs-follow-recenter-distance   0.1
-          treemacs-goto-tag-strategy          'refetch-index
-          treemacs-indentation                2
-          treemacs-indentation-string         " "
-          treemacs-is-never-other-window      nil
-          treemacs-no-png-images              nil
-          treemacs-project-follow-cleanup     nil
-          treemacs-persist-file               (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-          treemacs-recenter-after-file-follow nil
-          treemacs-recenter-after-tag-follow  nil
-          treemacs-show-hidden-files          t
-          treemacs-silent-filewatch           nil
-          treemacs-silent-refresh             nil
-          treemacs-sorting                    'alphabetic-desc
-          treemacs-space-between-root-nodes   t
-          treemacs-tag-follow-cleanup         t
-          treemacs-tag-follow-delay           1.5
-          treemacs-width                      35)
-    ;; The default width and height of the icons is 22 pixels. If you are
-    ;; using a Hi-DPI display, uncomment this to double the icon size.
-    ;;(treemacs-resize-icons 44)      
- 
-    (treemacs-follow-mode t)
-    (treemacs-filewatch-mode t)
-    (treemacs-fringe-indicator-mode t)
-    (pcase (cons (not (null (executable-find "git")))
-                 (not (null (executable-find "python3"))))
-      (`(t . t)
-       (treemacs-git-mode 'extended))
-      (`(t . _)
-       (treemacs-git-mode 'simple))))
-  :bind
-  (:map global-map
-        ("M-0"       . treemacs-select-window)
-        ("C-x t 1"   . treemacs-delete-other-windows)
-        ("C-x t t"   . treemacs)
-        ("C-x t B"   . treemacs-bookmark)
-        ("C-x t C-t" . treemacs-find-file)
-        ("C-x t M-t" . treemacs-find-tag)))
+(use-package evil
+  :ensure t)
+(evil-mode t)
 
-;; (use-package treemacs-projectile
-;;   :after treemacs projectile
-;;   :ensure t)
+(use-package neotree
+  :ensure t)
+
+(global-set-key [f8] 'neotree-toggle)
+
+(evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+(evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
+(evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+(evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+(evil-define-key 'normal neotree-mode-map (kbd "g") 'neotree-refresh)
+(evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
+(evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
+(evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
+(evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
 
 (defface org-block-begin-line
   '((t (:underline "#A7A6AA" :foreground "#b5d2e0" :background "#626268")))
@@ -251,8 +284,8 @@ If the new path's directories does not exist, create them."
   "#+TITLE: " (read-string "What is the title? ") " \n"
   "#+AUTHOR: Jordan Garrison\n"
   "#+email: jordan.garrison@gm.com\n"
-  "#+OPTIONS: ^:nil\n"
-  "#+INFOJS_OPT: view:" (read-string "View (options are info,overview,conent,showall): ") " sdepth:1\n"
+  "#+OPTIONS: ^:nil num:nil\n"
+  "#+INFOJS_OPT: view:" (read-string "View (options are info,overview,conent,showall): ") " sdepth:1 toc:i mouse:\n"
   "#+PROPERTY: header-args :exports both :eval never-export\n"
   "\n"
   )
