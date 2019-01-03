@@ -178,6 +178,8 @@ If the new path's directories does not exist, create them."
   (local-set-key (kbd "M-P") 'recompile)
   (local-set-key (kbd "M-]") 'next-error)
   (local-set-key (kbd "M-[") 'previous-error)
+  (setq tab-width 4)
+  (setq indent-tabs-mode 1)
   ;; turn on autocomplete
   (auto-complete-mode 1))
 (add-hook 'go-mode-hook 'my-go-mode-hook)
@@ -229,6 +231,7 @@ If the new path's directories does not exist, create them."
             (setq-local ac-ignore-case t)
             (auto-complete-mode)))
 
+(setq evil-want-C-u-scroll t)
 (use-package evil
   :ensure t)
 (evil-mode t)

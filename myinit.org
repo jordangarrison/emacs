@@ -262,13 +262,15 @@
         (local-set-key (kbd "M-P") 'recompile)
         (local-set-key (kbd "M-]") 'next-error)
         (local-set-key (kbd "M-[") 'previous-error)
+        (setq tab-width 4)
+        (setq indent-tabs-mode 1)
         ;; turn on autocomplete
         (auto-complete-mode 1))
       (add-hook 'go-mode-hook 'my-go-mode-hook)
     #+END_SRC
 
     #+RESULTS:
-    | my-go-mode-hook |
+    | #[nil \300\301\302"\207 [add-to-list ac-sources ac-source-go] 3] | my-go-mode-hook |
 
 *** Use go mode stuff for autocomplete
     #+BEGIN_SRC emacs-lisp
@@ -440,14 +442,15 @@
 * Evil Mode
 ** Set up evil mode on loading of buffers
    #+BEGIN_SRC emacs-lisp
+     (setq evil-want-C-u-scroll t)
      (use-package evil
        :ensure t)
      (evil-mode t)
    #+END_SRC
 
    #+RESULTS:
-   : t
-* Neotree
+=t
+=* Neotree
 ** Setup
    #+BEGIN_SRC emacs-lisp
      (use-package neotree
@@ -547,4 +550,3 @@
      (setq org-confirm-babel-evaluate nil)
    #+END_SRC
 ** Set up async execution of src code blocks
-
