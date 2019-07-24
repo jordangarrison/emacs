@@ -19,3 +19,4 @@ url
 .org-id-locations
 recentf
 myinit.el
+*.log

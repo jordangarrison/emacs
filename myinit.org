@@ -102,6 +102,7 @@
 ** Evil Mode
    Enable and use evil mode
    #+BEGIN_SRC emacs-lisp
+     (setq evil-want-C-u-scroll t)
      (use-package evil
        :ensure t)
      (evil-mode t)
@@ -201,6 +202,7 @@
    #+END_SRC
 * Development
 ** Python
+*** Anaconda
 *** Flycheck
     #+BEGIN_SRC emacs-lisp
       (use-package flycheck
@@ -228,7 +230,6 @@
         :init
         (yas-global-mode 1))
     #+END_SRC
-
 ** Go
 *** Snag user path and go path
     #+BEGIN_SRC emacs-lisp
@@ -257,13 +258,15 @@
 	(local-set-key (kbd "M-P") 'recompile)
 	(local-set-key (kbd "M-]") 'next-error)
 	(local-set-key (kbd "M-[") 'previous-error)
+	(setq tab-width 4)
+	(setq indent-tabs-mode 1)
 	;; turn on autocomplete
 	(auto-complete-mode 1))
       (add-hook 'go-mode-hook 'my-go-mode-hook)
     #+END_SRC
 
     #+RESULTS:
-    | #[nil \300\301\302"\207 [add-to-list ac-sources ac-source-go] 3] | auto-complete-for-go | my-go-mode-hook |
+    | #[nil \300\301\302"\207 [add-to-list ac-sources ac-source-go] 3] | my-go-mode-hook |
 
 *** Use go-mode specific autocomplete with go-mode
     #+BEGIN_SRC emacs-lisp
@@ -330,6 +333,34 @@
 
    #+RESULTS:
    : t
+** Docker
+*** Dockerfile and docker compose
+    #+BEGIN_SRC emacs-lisp
+      (use-package dockerfile-mode
+	:ensure t)
+      (use-package docker-compose-mode
+	:ensure t)
+    #+END_SRC
+
+    #+RESULTS:
+
+*** Docker interface
+    #+BEGIN_SRC emacs-lisp
+      (use-package docker-tramp
+	:ensure t)
+    #+END_SRC
+
+    #+RESULTS:
+
+*** Docker management
+    #+BEGIN_SRC emacs-lisp
+      (use-package docker
+	:ensure t
+	:bind ("C-c d" . docker)) 
+    #+END_SRC
+
+    #+RESULTS:
+    : docker
 
 * Org Mode
 ** Set up org bullets
@@ -362,6 +393,26 @@
 
    #+RESULTS:
    | ~/org |
+
+** Add skeleton to base all org mode files on
+   #+BEGIN_SRC emacs-lisp
+     (define-skeleton org-header-skeleton
+       "Header info for a emacs-org file."
+       "Title: "
+       "#+TITLE: " (read-string "What is the title? ") " \n"
+       "#+AUTHOR: Jordan Garrison\n"
+       "#+email: jordan.garrison@gm.com\n"
+       "#+OPTIONS: ^:nil num:nil\n"
+       "#+SETUPFILE: https://fniessen.github.io/org-html-themes/setup/theme-readtheorg.setup"
+       "#+INFOJS_OPT: view:" (read-string "View (options are info,overview,conent,showall): ") " sdepth:1 toc:i mouse:\n"
+       "#+PROPERTY: header-args :exports both :eval never-export\n"
+       "\n"
+       )
+     (global-set-key [C-S-f4] 'org-header-skeleton)
+   #+END_SRC
+
+   #+RESULTS:
+   : org-header-skeleton
 
 * Hugo
 ** Set up exporting on save with use-package
